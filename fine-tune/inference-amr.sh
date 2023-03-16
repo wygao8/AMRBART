@@ -1,24 +1,28 @@
+# bash inference-amr.sh "AMRBART-large-finetuned-AMR2.0-AMRParsing-v2"
 export CUDA_VISIBLE_DEVICES=0
+Data=UN_train_2
+
 RootDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-Dataset=examples
+# Dataset=data4parsing
 
-BasePath=/mnt/nfs-storage/data                    # change dir here
-DataPath=$RootDir/../$Dataset
+BasePath=/mnt/nfs-storage                    # change dir here
+DataPath=$RootDir/../../AMRMT/datasets/data4parsing/sliced_UN
 
 ModelCate=AMRBART-large
 
-MODEL=$1
-ModelCache=$BasePath/.cache
+MODEL=$RootDir/../../models/$1 
+ModelCache=$BasePath/models
 DataCache=$DataPath/.cache/dump-amrparsing
 
 lr=1e-5
 
-OutputDir=${RootDir}/outputs/Infer-$Dataset-${ModelCate}-AMRParing-bsz16-lr-${lr}-UnifiedInp
+OutputDir=${DataPath}/outputs/${Data} 
 
 if [ ! -d ${OutputDir} ];then
   mkdir -p ${OutputDir}
 else
+  echo $DataPath/ttm_test.jsonl
   read -p "${OutputDir} already exists, delete origin one [y/n]?" yn
   case $yn in
     [Yy]* ) rm -rf ${OutputDir}; mkdir -p ${OutputDir};;
@@ -37,7 +41,7 @@ fi
 python -u main.py \
     --data_dir $DataPath \
     --task "text2amr" \
-    --test_file $DataPath/data4parsing.jsonl \
+    --test_file $DataPath/${Data}.jsonl \
     --output_dir $OutputDir \
     --cache_dir $ModelCache \
     --data_cache_dir $DataCache \
