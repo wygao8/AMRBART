@@ -1,13 +1,14 @@
 # bash inference-amr.sh "AMRBART-large-finetuned-AMR2.0-AMRParsing-v2"
-export CUDA_VISIBLE_DEVICES=0
-Data=UN_train_2
+export CUDA_VISIBLE_DEVICES=1
+Data=UN_train_4
+Datafolder=sliced_UN
 
 RootDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Dataset=data4parsing
 
 BasePath=/mnt/nfs-storage                    # change dir here
-DataPath=$RootDir/../../AMRMT/datasets/data4parsing/sliced_UN
+DataPath=$RootDir/../../AMRMT/datasets/data4parsing/$Datafolder
 
 ModelCate=AMRBART-large
 
@@ -22,7 +23,7 @@ OutputDir=${DataPath}/outputs/${Data}
 if [ ! -d ${OutputDir} ];then
   mkdir -p ${OutputDir}
 else
-  echo $DataPath/ttm_test.jsonl
+  echo $DataPath/$Data
   read -p "${OutputDir} already exists, delete origin one [y/n]?" yn
   case $yn in
     [Yy]* ) rm -rf ${OutputDir}; mkdir -p ${OutputDir};;
