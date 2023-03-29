@@ -1,6 +1,6 @@
 # bash inference-amr.sh "AMRBART-large-finetuned-AMR2.0-AMRParsing-v2"
 export CUDA_VISIBLE_DEVICES=1
-Data=UN_train_4
+Data=UN_train_7
 Datafolder=sliced_UN
 
 RootDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
