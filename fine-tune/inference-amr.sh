@@ -1,6 +1,6 @@
 # bash inference-amr.sh "AMRBART-large-finetuned-AMR2.0-AMRParsing-v2"
-export CUDA_VISIBLE_DEVICES=1
-Data=UN_train_7
+export CUDA_VISIBLE_DEVICES=0
+Data=UN_train_16
 Datafolder=sliced_UN
 
 RootDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -70,3 +70,5 @@ python -u main.py \
     --ddp_find_unused_parameters False \
     --report_to "tensorboard" \
     --dataloader_pin_memory True 2>&1 | tee $OutputDir/run.log
+
+python pushplus.py --title "inference-amr done." --content $Data
